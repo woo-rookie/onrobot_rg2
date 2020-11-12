@@ -1,0 +1,306 @@
+<?xml version="1.0"?>
+
+<robot name="onrobot_rg2_gripper" xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:include filename="$(find onrobot_rg2_description)/urdf/onrobot_rg2_gripper.transmission.xacro" />
+
+  <xacro:macro name="onrobot_rg2_gripper" params="prefix parent *origin">
+
+    <joint name="${prefix}gripper_base_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}gripper_base_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${prefix}gripper_base_link">
+      <inertial>
+        <origin xyz="-0.000118835633453291 4.70054905894546E-06 0.0572680906518555" rpy="0 0 0" />
+        <mass value="0.199035856566616" />
+        <inertia ixx="0.000170600248402307" ixy="3.75673847481297E-08" ixz="4.71579777629836E-08" iyy="0.000213152093040191" iyz="-1.76513863534777E-07" izz="5.59878626220752E-05" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_base_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_base_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <link name="${prefix}gripper_finger1_finger_link">
+      <inertial>
+        <origin xyz="0.0010718088996676 0.0103000002725817 0.00719447424225184" rpy="0 0 0" />
+        <mass value="0.0157597232324457" />
+        <inertia ixx="4.77930907548385E-06" ixy="-3.38189802725612E-15" ixz="-1.64279014982784E-07" iyy="4.865441590744E-06" iyz="-1.3392990014795E-14" izz="1.31307089078094E-06" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_finger1_finger_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_finger1_finger_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_finger1_finger_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <joint name="${prefix}gripper_finger1_joint" type="revolute">
+      <origin xyz="0.0169 -0.0103 0.105" rpy="0 0 0" />
+      <parent link="${prefix}gripper_base_link" />
+      <child link="${prefix}gripper_finger1_finger_link" />
+      <axis xyz="0 1 0" />
+      <limit lower="0" upper="0.8" effort="1000" velocity="2" />
+    </joint>
+
+    <link name="${prefix}gripper_finger1_inner_knuckle_link">
+      <inertial>
+        <origin xyz="0.000752725541911719 0.00999999924320924 0.0203934641019564" rpy="0 0 0" />
+        <mass value="0.00491742236496327" />
+        <inertia ixx="1.98120134788244E-06" ixy="-6.4357476071842E-14" ixz="-6.20941625040096E-08" iyy="1.77599017859716E-06" iyz="-1.09055934131207E-14" izz="2.48948112270257E-07" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_finger1_inner_knuckle_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_finger1_inner_knuckle_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_finger1_inner_knuckle_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <joint name="${prefix}gripper_finger1_inner_knuckle_joint" type="continuous">
+      <origin xyz="0.0074 -0.01 0.1215" rpy="0 0 0" />
+      <parent link="${prefix}gripper_base_link" />
+      <child link="${prefix}gripper_finger1_inner_knuckle_link" />
+      <axis xyz="0 1 0" />
+      <limit lower="-3.14" upper="3.14" effort="0.1" velocity="100" />
+      <mimic joint="${prefix}gripper_finger1_joint" offset="0"/>
+    </joint>
+
+    <link name="${prefix}gripper_finger1_finger_tip_link">
+      <inertial>
+        <origin xyz="-0.0011594416667826 0.00580000072518588 0.0107764194581964" rpy="0 0 0" />
+        <mass value="0.00872849065417813" />
+        <inertia ixx="1.50886455139492E-06" ixy="-1.78552626714452E-14" ixz="2.60234059895028E-07" iyy="1.45214737233688E-06" iyz="9.35094538565976E-14" izz="3.57695503495602E-07" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_finger1_finger_tip_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_finger1_finger_tip_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_finger1_finger_tip_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <joint name="${prefix}gripper_finger1_finger_tip_joint" type="continuous">
+      <origin xyz="0.002 0.0042 0.054964" rpy="0 0 0" />
+      <parent link="${prefix}gripper_finger1_inner_knuckle_link" />
+      <child link="${prefix}gripper_finger1_finger_tip_link" />
+      <axis xyz="0 1 0" />
+      <limit lower="-3.14" upper="3.14" effort="0.1" velocity="100" />
+      <mimic joint="${prefix}gripper_finger1_joint" multiplier="-1"/>
+    </joint>
+
+    <link name="${prefix}gripper_finger2_finger_link">
+      <inertial>
+        <origin xyz="-0.00107180889966652 0.0102999997274183 0.00719447424225199" rpy="0 0 0" />
+        <mass value="0.0157597232324457" />
+        <inertia ixx="4.7793090754839E-06" ixy="-3.38189802615458E-15" ixz="1.64279014982266E-07" iyy="4.865441590744E-06" iyz="1.33929898462312E-14" izz="1.31307089078089E-06" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_finger2_finger_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_finger2_finger_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_finger2_finger_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <joint name="${prefix}gripper_finger2_joint" type="revolute">
+      <origin xyz="-0.0171 -0.0103 0.105" rpy="0 0 0" />
+      <parent link="${prefix}gripper_base_link" />
+      <child link="${prefix}gripper_finger2_finger_link" />
+      <axis xyz="0 1 0" />
+      <limit lower="-3.14" upper="3.14" effort="1000" velocity="100" />
+      <mimic joint="${prefix}gripper_finger1_joint" multiplier="-1"/>
+    </joint>
+
+    <link name="${prefix}gripper_finger2_inner_knuckle_link">
+      <inertial>
+        <origin xyz="-0.000752725541908486 0.0100000007567908 0.0203934641019566" rpy="0 0 0" />
+        <mass value="0.00491742236496327" />
+        <inertia ixx="1.98120134788246E-06" ixy="-6.43574760392122E-14" ixz="6.20941625037353E-08" iyy="1.77599017859716E-06" iyz="1.09055934323118E-14" izz="2.48948112270238E-07" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_finger2_inner_knuckle_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_finger2_inner_knuckle_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_finger2_inner_knuckle_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <joint name="${prefix}gripper_finger2_inner_knuckle_joint" type="continuous">
+      <origin xyz="-0.0076 -0.01 0.1215" rpy="0 0 0" />
+      <parent link="${prefix}gripper_base_link" />
+      <child link="${prefix}gripper_finger2_inner_knuckle_link" />
+      <axis xyz="0 1 0" />
+      <limit lower="-3.14" upper="3.14" effort="0.1" velocity="100" />
+      <mimic joint="${prefix}gripper_finger1_joint" multiplier="-1"/>
+    </joint>
+
+    <link name="${prefix}gripper_finger2_finger_tip_link">
+      <inertial>
+        <origin xyz="0.00115944166678269 0.00579999927481416 0.0107764194581964" rpy="0 0 0" />
+        <mass value="0.00872849065417814" />
+        <inertia ixx="1.50886455139492E-06" ixy="-1.78552622842378E-14" ixz="-2.60234059895028E-07" iyy="1.45214737233688E-06" iyz="-9.3509454025756E-14" izz="3.57695503495603E-07" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/visual/gripper_finger2_finger_tip_link.dae" />
+        </geometry>
+        <material name="White">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://onrobot_rg2_description/meshes/collision/gripper_finger2_finger_tip_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}gripper_finger2_finger_tip_link">
+      <implicitSpringDamper>1</implicitSpringDamper>
+      <mu1>100000</mu1>
+      <mu2>100000</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo> 
+
+    <joint name="${prefix}gripper_finger2_finger_tip_joint" type="continuous">
+      <origin xyz="-0.002 0.0042 0.054964" rpy="0 0 0" />
+      <parent link="${prefix}gripper_finger2_inner_knuckle_link" />
+      <child link="${prefix}gripper_finger2_finger_tip_link" />
+      <axis xyz="0 1 0" />
+      <limit lower="-3.14" upper="3.14" effort="0.1" velocity="100" />
+      <mimic joint="${prefix}gripper_finger1_joint" offset="0"/>
+    </joint>
+
+    <gazebo>
+	    <plugin name="gazebo_grasp_fix" filename="libgazebo_grasp_fix.so">
+        <arm>
+          <arm_name>gripper_arm</arm_name>
+          <palm_link>${parent}</palm_link>
+          <gripper_link>${prefix}gripper_finger1_finger_tip_link</gripper_link>
+          <gripper_link>${prefix}gripper_finger2_finger_tip_link</gripper_link>
+        </arm>
+	      <forces_angle_tolerance>100</forces_angle_tolerance>
+	      <update_rate>2</update_rate>
+	      <grip_count_threshold>1</grip_count_threshold>
+	      <max_grip_count>2</max_grip_count>
+	      <release_tolerance>0.005</release_tolerance>
+	      <disable_collisions_on_attach>true</disable_collisions_on_attach>
+	      <contact_topic>__default_topic__</contact_topic>
+	    </plugin>
+	  </gazebo>
+
+    <xacro:onrobot_rg2_gripper_transmission prefix="${prefix}" />
+
+  </xacro:macro>
+</robot>
